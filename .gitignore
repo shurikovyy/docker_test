@@ -1,3 +1,6 @@
+# add cfg-folder to fucking-repo. Sergey, special for you, boy
+/app/scripts/configs/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
