@@ -1,0 +1,5 @@
+# Основные задачи
+* * * * * /git-pull.sh
+*/1 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/hallo_fucking_world.py
+*/2 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/hallo_and_take_my_money.py
+* * * * * echo 'Test log entry'
