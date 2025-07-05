@@ -3,4 +3,4 @@
 */1 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/hallo_fucking_world.py
 */2 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/hallo_and_take_my_money.py
 */2 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/new_file.py
-* * * * * echo 'Test log entry'
+*/1 * * * * /usr/bin/python3 /app/project/docker_test/app/scripts/die_beach.py
