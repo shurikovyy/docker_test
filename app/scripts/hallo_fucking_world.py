@@ -7,7 +7,7 @@ logging.basicConfig(
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
     handlers=[
         logging.StreamHandler(sys.stdout),  # Вывод в stdout
-        logging.FileHandler('/var/log/python.log')  # Дополнительно в файл
+        # logging.FileHandler('/var/log/python.log')  # Дополнительно в файл
     ]
 )
 
