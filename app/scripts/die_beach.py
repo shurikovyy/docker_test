@@ -12,8 +12,7 @@ logging.basicConfig(
 )
 
 def print_die():
-    logging.info('Die, mother fucker, die!')
-    print('Die, mother fucker, die!')
+    logging.info('* Die, mother fucker, die!')
 
 if __name__=="__main__":
     print_die()

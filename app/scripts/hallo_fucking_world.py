@@ -12,8 +12,11 @@ logging.basicConfig(
 )
 
 def print_greeting():
-    logging.info('every 1 min: Shut up and smile!')
-    print('print every 1 min: Shut up and smile!')
+    logging.info('* Shut up and smile!')
 
 if __name__=="__main__":
-    print_greeting()
+    try:
+        print_greeting()
+    except Exception as e:
+        logging.exception("Error in hallo_fucking_world.py")
+        sys.exit(1)
