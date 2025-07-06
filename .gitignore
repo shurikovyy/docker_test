@@ -1,5 +1,8 @@
-# add cfg-folder to fucking-repo. Sergey, special for you, boy
+# add cnfg-folder to fucking-repo. Sergey, special for you, boy
 /app/scripts/configs/
+
+# hash
+/project/requirements.hash
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
