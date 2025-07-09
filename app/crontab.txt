@@ -1,5 +1,7 @@
 # Основные задачи
-# * * * * * /git-pull.sh
+* * * * * cd /app/project/docker_test && \
+            GIT_OUTPUT=$(git pull 2>&1) && \
+            echo "[$(date)] git pull (cron) output: $GIT_OUTPUT" >> /var/log/app/app.log 2>&1
 */1 * * * * python3 /app/project/docker_test/app/scripts/die_beach.py
 */1 * * * * python3 /app/project/docker_test/app/scripts/hallo_fucking_world.py
 */2 * * * * python3 /app/project/docker_test/app/scripts/control_script.py
