@@ -10,8 +10,10 @@ from psycopg2.extras import execute_values
 
 try:
     from dotenv import load_dotenv
+    logging.info('** Импортировали dotenv **')
 except:
     os.system('pip install python-dotenv')
+    logging.info('** Установили dotenv **')
 load_dotenv("/app/.env")
 
 
