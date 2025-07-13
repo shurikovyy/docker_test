@@ -1,10 +1,12 @@
 import logging
 import sys
-import psycopg2
+#!/usr/bin/env python3
+import os
 import random
-import time
-from faker import Faker
-from datetime import datetime, timedelta
+import string
+from datetime import datetime
+import psycopg2
+from psycopg2.extras import execute_values
 
 # Настройка корневого логгера
 logging.basicConfig(
@@ -15,13 +17,6 @@ logging.basicConfig(
         # logging.FileHandler('/var/log/python.log')  # Дополнительно в файл
     ]
 )
-#!/usr/bin/env python3
-import os
-import random
-import string
-from datetime import datetime
-import psycopg2
-from psycopg2.extras import execute_values
 
 def random_string(length=8):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
@@ -56,7 +51,7 @@ def populate(n: int = 10):
         """
         execute_values(cur, sql, records)
         ids = [row[0] for row in cur.fetchall()]
-        print(f"Inserted {len(ids)} rows, IDs: {ids}")
+        logging.info(f"Inserted {len(ids)} rows, IDs: {ids}")
     conn.close()
 
 if __name__ == "__main__":
