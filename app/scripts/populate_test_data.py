@@ -8,7 +8,10 @@ from datetime import datetime
 import psycopg2
 from psycopg2.extras import execute_values
 
-from dotenv import load_dotenv
+try:
+    from dotenv import load_dotenv
+except:
+    os.system('pip install python-dotenv')
 load_dotenv("/app/.env")
 
 
