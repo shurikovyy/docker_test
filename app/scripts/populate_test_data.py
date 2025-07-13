@@ -12,6 +12,7 @@ try:
     from dotenv import load_dotenv
     logging.info('** Импортировали dotenv **')
 except:
+    logging.error('** dotenv не установлекн **')
     os.system('pip install python-dotenv')
     logging.info('** Установили dotenv **')
 load_dotenv("/app/.env")
