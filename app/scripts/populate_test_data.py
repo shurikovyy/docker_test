@@ -21,14 +21,26 @@ logging.basicConfig(
 def random_string(length=8):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
+# def get_db_connection():
+#     return psycopg2.connect(
+#         host=os.getenv("DB_HOST", "db"),
+#         port=os.getenv("DB_PORT", 5432),
+#         dbname=os.getenv("POSTGRES_DB"),
+#         user=os.getenv("POSTGRES_USER"),
+#         password=os.getenv("POSTGRES_PASSWORD"),
+#     )
+
 def get_db_connection():
+    host = os.getenv("DB_HOST", "db")
+    port = os.getenv("DB_PORT", 5432)
+    dbname = os.getenv("POSTGRES_DB")
+    user = os.getenv("POSTGRES_USER")
+    pwd = os.getenv("POSTGRES_PASSWORD")
+    print(f"DEBUG: connecting with host={host}, port={port}, dbname={dbname}, user={user}, password={'SET' if pwd else 'EMPTY'}")
     return psycopg2.connect(
-        host=os.getenv("DB_HOST", "db"),
-        port=os.getenv("DB_PORT", 5432),
-        dbname=os.getenv("POSTGRES_DB"),
-        user=os.getenv("POSTGRES_USER"),
-        password=os.getenv("POSTGRES_PASSWORD"),
+        host=host, port=port, dbname=dbname, user=user, password=pwd
     )
+
 
 def populate(n: int = 10):
     """
