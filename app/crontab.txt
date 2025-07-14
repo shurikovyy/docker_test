@@ -2,4 +2,4 @@
 # * * * * * cd /app/project/docker_test && GIT_OUTPUT=$(git pull 2>&1) && echo "[$(date)] git pull (cron) output: $GIT_OUTPUT" >> /var/log/app/app.log 2>&1
 # * * * * * /app/project/docker_test/scripts/git_update_and_deps.sh >> /var/log/app/cron.log 2>&1 # Каждую минуту обновляем код и зависимости
 */1 * * * * python3 /app/project/docker_test/app/scripts/die_beach.py
-*/2 * * * * python3 /app/project/docker_test/app/scripts/populate_test_data.py
+# */2 * * * * python3 /app/project/docker_test/app/scripts/populate_test_data.py
