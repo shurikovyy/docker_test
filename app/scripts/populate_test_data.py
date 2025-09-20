@@ -74,3 +74,4 @@ if __name__ == "__main__":
                    help="How many rows to insert")
     args = p.parse_args()
     populate(args.number)
+    print('Строки удачно вставлены в БД')
