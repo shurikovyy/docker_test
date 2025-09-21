@@ -62,7 +62,46 @@
 * `postgresql.conf` — кастомная конфигурация PostgreSQL.
 * `requirements.txt` — зависимости образа `app` (опционально, для базовых нужд).
 * `.env.example` — шаблон переменных окружения.
-  Актуальное дерево и базовый README подтверждаются страницей репозитория. ([GitHub][1])
+
+
+## `pg_git_project_ready` (инфраструктура)
+
+```
+pg_git_project_ready/
+├─ docker-compose.yml            # стек: db, git-sync, app; маунты, env, healthchecks
+├─ Dockerfile                    # образ сервиса app (python + supercronic)
+├─ entrypoint.sh                 # логика ожидания кода, хэши req/cron, автоустановка, перезапуск cron
+├─ git-sync/
+│  ├─ Dockerfile                # образ sidecar'а git-sync (alpine/debian)
+│  └─ entrypoint.sh             # clone/fetch/reset с поддержкой HTTPS(PAT)/SSH
+├─ initdb/
+│  └─ init.sql                  # первичная инициализация БД (CREATE TABLE IF NOT EXISTS ...)
+├─ postgresql.conf              # кастомный конфиг PostgreSQL (монтируется RO)
+├─ requirements.txt             # базовые зависимости образа app (на этапе сборки, опционально)
+├─ .env.example                 # пример переменных окружения (копируешь в .env)
+└─ README.md                    # документация (быстрый старт, сервисы, хэши и т.д.)
+```
+
+> Примечание: **том состояния** (с хэшами `requirements.sha256` и `crontab.sha256`) — это *именованный volume* Docker, в репозитории его нет. В рантайме он монтируется в контейнер `app` как:
+
+```
+/var/lib/app-state/requirements.sha256
+/var/lib/app-state/crontab.sha256
+/var/lib/app-state/crontab.runtime.txt
+```
+
+## `docker_test` (репозиторий со скриптами, тянется git-sync)
+
+```
+docker_test/
+├─ requirements.txt              # runtime-зависимости скриптов; по нему считаем хэш и ставим пакеты
+└─ app/
+   ├─ crontab.txt               # расписание supercronic; по нему считаем хэш и перезапускаем cron
+   └─ scripts/
+      ├─ hello.py               # пример задачи
+      ├─ populate_test_data.py  # вставка тестовых строк в БД
+      └─ ...                    # ваши другие скрипты
+```
 
 ---
 
