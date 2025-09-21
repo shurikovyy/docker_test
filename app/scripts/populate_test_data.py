@@ -22,25 +22,26 @@ logging.basicConfig(
 def random_string(length=8):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
-def get_db_connection():
-    return psycopg2.connect(
-        host=os.getenv("DB_HOST", "db"),
-        port=os.getenv("DB_PORT", 5432),
-        dbname=os.getenv("POSTGRES_DB"),
-        user=os.getenv("POSTGRES_USER"),
-        password=os.getenv("POSTGRES_PASSWORD"),
-    )
-
 # def get_db_connection():
-#     host = os.getenv("DB_HOST", "db")
-#     port = os.getenv("DB_PORT", 5432)
-#     dbname = os.getenv("POSTGRES_DB")
-#     user = os.getenv("POSTGRES_USER")
-#     pwd = os.getenv("POSTGRES_PASSWORD")
-#     print(f"DEBUG: connecting with host={host}, port={port}, dbname={dbname}, user={user}, password={'SET' if pwd else 'EMPTY'}")
-#     return psycopg2.connect(
-#         host=host, port=port, dbname=dbname, user=user, password=pwd
-#     )
+#     dsn = os.getenv("DATABASE_URL")
+#     if not dsn:
+#         raise RuntimeError(
+#             "DATABASE_URL не задан. "
+#             "Либо задайте DATABASE_URL, либо передайте POSTGRES_* переменные в контейнер app."
+#         )
+#     # psycopg2 понимает DSN в формате postgresql://user:pass@host:port/dbname
+#     return psycopg2.connect(dsn)
+
+def get_db_connection():
+    host = os.getenv("DB_HOST", "db")
+    port = os.getenv("POSTGRES_PORT", 5432)
+    dbname = os.getenv("POSTGRES_DB")
+    user = os.getenv("POSTGRES_USER")
+    pwd = os.getenv("POSTGRES_PASSWORD")
+    print(f"DEBUG: connecting with host={host}, port={port}, dbname={dbname}, user={user}, password={'SET' if pwd else 'EMPTY'}")
+    return psycopg2.connect(
+        host=host, port=port, dbname=dbname, user=user, password=pwd
+    )
 
 
 def populate(n: int = 10):
