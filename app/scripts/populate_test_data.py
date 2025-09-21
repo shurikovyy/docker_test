@@ -33,6 +33,10 @@ def random_string(length=8):
 #     return psycopg2.connect(dsn)
 
 def get_db_connection():
+    url = os.getenv("DATABASE_URL")
+    if url:
+        return psycopg2.connect(url)
+    # Креды сейчас не прописаны в окружении компоса сервиса app
     host = os.getenv("DB_HOST", "db")
     port = os.getenv("POSTGRES_PORT", 5432)
     dbname = os.getenv("POSTGRES_DB")
