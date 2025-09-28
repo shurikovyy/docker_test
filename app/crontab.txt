@@ -1,4 +1,4 @@
 # Основные задачи
-*/3 * * * * python3 /app/project/docker_test/app/scripts/die_beach.py
-*/2 * * * * python3 /app/project/docker_test/app/scripts/populate_test_data.py
-*/1 * * * * python3 /app/project/docker_test/app/scripts/debug_script.py
+# */3 * * * * python3 /app/project/docker_test/app/scripts/die_beach.py
+# */2 * * * * python3 /app/project/docker_test/app/scripts/populate_test_data.py
+*/1 * * * * python3 /app/project/docker_test/app/scripts/new_folder/debug_script.py
