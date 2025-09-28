@@ -2,4 +2,3 @@ pandas
 gspread
 psycopg2-binary
 python-dotenv
-numpy
