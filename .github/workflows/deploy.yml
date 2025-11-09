@@ -1,0 +1,59 @@
+name: deploy
+on:
+  push:
+    branches: ['actions+sync']
+  workflow_dispatch:
+
+concurrency:
+  group: deploy-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+
+    env:
+      SSH_HOST: ${{ secrets.DEPLOY_HOST }}
+      SSH_USER: ${{ secrets.DEPLOY_USER }}
+      SSH_PORT: ${{ secrets.DEPLOY_SSH_PORT || '22' }}
+      PROJECT_DIR: /home/shurikovyy/pg_git_project_ready
+      CODE_DIR: /opt/pg/code
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+
+      - name: Setup SSH agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.DEPLOY_SSH_KEY }}
+
+      - name: Add server host key
+        run: ssh-keyscan -p "$SSH_PORT" "$SSH_HOST" >> ~/.ssh/known_hosts
+
+      # Короткая остановка app, чтобы избежать гонок при замене файлов
+      - name: Stop app (short pause)
+        run: |
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "docker compose -f '$PROJECT_DIR/docker-compose.yml' -f '$PROJECT_DIR/docker-compose.actions.yml' stop app || true"
+
+      - name: Ensure target directory exists
+        run: ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" "mkdir -p '$CODE_DIR'"
+
+      - name: Rsync code (direct copy)
+        run: |
+          rsync -az --delete \
+            --exclude '.git' \
+            -e "ssh -p $SSH_PORT" ./ "$SSH_USER@$SSH_HOST:$CODE_DIR/"
+
+      - name: Start app
+        run: |
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "docker compose -f '$PROJECT_DIR/docker-compose.yml' -f '$PROJECT_DIR/docker-compose.actions.yml' start app"
+
+      - name: Tail app logs (post-deploy)
+        run: |
+          ssh -p "$SSH_PORT" "$SSH_USER@$SSH_HOST" \
+            "sleep 3 && docker compose -f '$PROJECT_DIR/docker-compose.yml' -f '$PROJECT_DIR/docker-compose.actions.yml' logs --since=2m app | tail -n 200 || true"
