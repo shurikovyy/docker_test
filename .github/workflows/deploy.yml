@@ -1,7 +1,7 @@
 name: deploy
 on:
   push:
-    branches: ['actions+sync']
+    branches: ['actions_sync']
   workflow_dispatch:
 
 concurrency:
